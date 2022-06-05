@@ -4,7 +4,7 @@ RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
 local speedomulti = 3.6
 RegisterCommand('lcv', function()
 	local vehicleModel = GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1)))
-	for _,cars in pairs(Config.TwoStepCars) do
+	for _,cars in pairs(Config.launchCars) do
 		if GetHashKey(cars) == vehicleModel then
 			if IsPedInAnyVehicle(PlayerPedId(), false) then
 			toggleLunchControl()
