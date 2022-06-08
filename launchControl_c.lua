@@ -1,4 +1,4 @@
-toggleLunch = false
+toggleLaunch = false
 RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
 
 local speedomulti = 3.6
@@ -19,8 +19,8 @@ end, false)
 
 
 function toggleLunchControl()
-    if toggleLunch then
-        toggleLunch = false
+    if toggleLaunch then
+        toggleLaunch = false
 		QBCore.Functions.Notify('Launch Control OFF', 'error')
     else
         toggleLunch = true
@@ -35,7 +35,7 @@ Citizen.CreateThread( function()
      while true do
         Citizen.Wait( 3 )
 	
-        if toggleLunch then
+        if toggleLaunch then
         local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 		local vehiclePos = GetEntityCoords(vehicle)
 			if IsPedInAnyVehicle(PlayerPedId(), false) then
@@ -44,12 +44,12 @@ Citizen.CreateThread( function()
 				if speed < 1 then
 				SetVehicleCurrentRpm(vehicle , 0.7)
 				else
-				toggleLunch = false
+				toggleLaunch = false
 				QBCore.Functions.Notify('Launch Control OFF, too fast....', 'error')
 				end
 
 			else
-			toggleLunch = false
+			toggleLaunch = false
 			QBCore.Functions.Notify('Launch Control OFF, exited a vehicle...', 'error')
 			end
         end
