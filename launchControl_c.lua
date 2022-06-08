@@ -1,4 +1,5 @@
 toggleLaunch = false
+local SpecificCarsOnly = true
 RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
 
 local speedomulti = 3.6
