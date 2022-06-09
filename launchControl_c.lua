@@ -3,6 +3,20 @@ RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
 
 local speedomulti = 3.6
 local SpecificCarsOnly = true
+
+local initialCooldownSeconds = 20
+local cooldownSecondsRemaining = 0
+
+function handleCooldown()
+    cooldownSecondsRemaining = initialCooldownSeconds
+    Citizen.CreateThread(function()
+        while cooldownSecondsRemaining > 0 do
+            Citizen.Wait(1000)
+            cooldownSecondsRemaining = cooldownSecondsRemaining - 1
+        end
+    end)
+end
+
 LaunchCars = {
     "rs318",
 	"subwrx",
