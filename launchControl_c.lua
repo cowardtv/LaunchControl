@@ -13,7 +13,7 @@ RegisterCommand('lcv', function()
 	if SpecificCarsOnly then
 		for _,cars in pairs(LaunchCars) do
 			if GetHashKey(cars) == vehicleModel then
-				if IsPedInAnyVehicle(PlayerPedId(), false) then
+				if IsPedInAnyVehicle(PlayerPedId(), false) and GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1) then
 				local speed = math.floor(GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1))) * speedomulti)
 				if speed < 1 then
 				toggleLaunchControl()
