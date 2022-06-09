@@ -6,6 +6,5 @@ author 'CowardTV'
 
 
 client_scripts {
-    'config.lua',
     'launchControl_c.lua'
 }
