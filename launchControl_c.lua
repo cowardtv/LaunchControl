@@ -4,7 +4,28 @@ RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
 local speedomulti = 3.6
 local SpecificCarsOnly = true
 LaunchCars = {
-    "rs318", "subwrx","cowardm4","golfmk6","m3f80","rmodgt64","rmodrs6","urus","urustc","765lt","m3e46","toysupmk4","r8v10abt","gtr","r6","r1m","20r1","panigale","hayabusa","h2carb","bmwg07","pista",
+    "rs318",
+	"subwrx",
+	"cowardm4",
+	"golfmk6",
+	"m3f80",
+	"rmodgt64",
+	"rmodrs6",
+	"urus",
+	"urustc",
+	"765lt",
+	"m3e46",
+	"toysupmk4",
+	"r8v10abt",
+	"gtr",
+	"r6",
+	"r1m",
+	"20r1",
+	"panigale",
+	"hayabusa",
+	"h2carb",
+	"bmwg07",
+	"pista",
     }
 
 
