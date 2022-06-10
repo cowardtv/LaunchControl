@@ -1,9 +1,3 @@
-toggleLaunch = false
-RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
-
-local speedomulti = 3.6
-local SpecificCarsOnly = true
-
 local initialCooldownSeconds = 20
 local cooldownSecondsRemaining = 0
 
@@ -17,6 +11,14 @@ function handleCooldown()
     end)
 end
 
+
+
+toggleLaunch = false
+RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
+
+local speedomulti = 3.6
+local SpecificCarsOnly = true
+local toggleBoost = false
 LaunchCars = {
     "rs318",
 	"subwrx",
@@ -40,6 +42,7 @@ LaunchCars = {
 	"h2carb",
 	"bmwg07",
 	"pista",
+	"yzfr7",
     }
 
 
@@ -49,26 +52,26 @@ RegisterCommand('lcv', function()
 		for _,cars in pairs(LaunchCars) do
 			if GetHashKey(cars) == vehicleModel then
 				if IsPedInAnyVehicle(PlayerPedId(), false) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1) then
-				local speed = math.floor(GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1))) * speedomulti)
-				if speed < 1 then
-				toggleLaunchControl()
-				else
+					local speed = math.floor(GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1))) * speedomulti)
+					if speed < 1 then
+					toggleLaunchControl()
+					else
 				-- TriggerEvent("notification","Cant use while Driving...",2)
-				QBCore.Functions.Notify('Cant use while Driving...', 'error')
-				end
+					QBCore.Functions.Notify('Cant use while Driving...', 'error')
+					end
 				end
 			end
 		end
 	else
 		if IsPedInAnyVehicle(PlayerPedId(), false) then
 				local speed = math.floor(GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1))) * speedomulti)
-				if speed < 1 then
-				toggleLaunchControl()
-				else
-				-- TriggerEvent("notification","Cant use while Driving...",2)
-				QBCore.Functions.Notify('Cant use while Driving...', 'error')
-				end
-				end
+			if speed < 1 then
+			toggleLaunchControl()
+			else
+			-- TriggerEvent("notification","Cant use while Driving...",2)
+			QBCore.Functions.Notify('Cant use while Driving...', 'error')
+			end
+		end
 	end
 end, false)
 
@@ -79,24 +82,24 @@ end, false)
 
 function toggleLaunchControl()
 	
-		if toggleLaunch then
+	if toggleLaunch then
 			toggleLaunch = false
 			QBCore.Functions.Notify('Launch Control OFF', 'error')
 			-- TriggerEvent("notification","Launch Control OFF",2)
 		else
-			if cooldownSecondsRemaining <= 0 then
-			handleCooldown()
+		if cooldownSecondsRemaining <= 0 then
+			
 			toggleLaunch = true
 			QBCore.Functions.Notify('Launch Control On', 'success')
-			else
-	local minutes = math.floor(cooldownSecondsRemaining / 60) 
-		local seconds = cooldownSecondsRemaining - minutes * 60 
-		local cooldownMessage = string.format(" Launch Control is On Cooldown... Wait:  %dm, %ds", minutes, seconds)
-	QBCore.Functions.Notify(cooldownMessage, 'error')
-	end
+		else
+			local minutes = math.floor(cooldownSecondsRemaining / 60) -- divide the total seconds remaining by 60 to get minutes, pass it to math.floor to strip off the decimals
+			local seconds = cooldownSecondsRemaining - minutes * 60 -- get the seconds left that don't make up a full minute
+			local cooldownMessage = string.format(" Launch Control is On Cooldown... Wait:  %dm, %ds", minutes, seconds)
+		QBCore.Functions.Notify(cooldownMessage, 'error')
 		end
+	end
 end
-local toggleBoost = false
+
 
 Citizen.CreateThread( function()
 
@@ -116,9 +119,11 @@ Citizen.CreateThread( function()
 				toggleLaunch = false
 				QBCore.Functions.Notify('Launch Control Successful !', 'success')
 				-- TriggerEvent("notification","Launch Control Successful !",2)
+				-- AddExplosion(vehiclePos.x, vehiclePos.y, vehiclePos.z, 61, 0.0, true, true, 0.0, true)
 				toggleBoost = true
 				Citizen.Wait(4400)
 				toggleBoost = false
+				handleCooldown()
 				QBCore.Functions.Notify('Launch Control OFF !', 'error')
 				end
 			else
