@@ -19,38 +19,138 @@ RegisterKeyMapping('lcv', 'Launch Control', 'keyboard', 'j')
 local speedomulti = 3.6
 local SpecificCarsOnly = true
 local toggleBoost = false
-LaunchCars = {
-    "rs318",
-	"subwrx",
-	"cowardm4",
-	"golfmk6",
-	"m3f80",
-	"rmodgt64",
-	"rmodrs6",
-	"urus",
-	"urustc",
-	"765lt",
-	"m3e46",
-	"toysupmk4",
-	"r8v10abt",
-	"gtr",
-	"r6",
-	"r1m",
-	"20r1",
-	"panigale",
-	"hayabusa",
-	"h2carb",
-	"bmwg07",
-	"pista",
-	"yzfr7",
-    }
 
+
+
+LaunchCars = {
+	
+	["rs5"] = {
+		["model"] = "rs5",
+		["redline"] = 0.8,
+	},
+	
+	["rs318"] = {
+		["model"] = "rs318",
+		["redline"] = 0.8,
+	},
+	
+	["yzfr7"] = {
+		["model"] = "yzfr7",
+		["redline"] = 0.8,
+	},
+	
+	["rs6c8"] = {
+		["model"] = "rs6c8",
+		["redline"] = 0.7,
+	},
+	
+	["pista"] = {
+		["model"] = "pista",
+		["redline"] = 0.8,
+	},
+	
+	["bmwg07"] = {
+		["model"] = "bmwg07",
+		["redline"] = 0.8,
+	},
+	
+	["h2carb"] = {
+		["model"] = "h2carb",
+		["redline"] = 0.7,
+	},
+	
+	["hayabusa"] = {
+		["model"] = "hayabusa",
+		["redline"] = 0.8,
+	},
+	
+	["panigale"] = {
+		["model"] = "panigale",
+		["redline"] = 0.8,
+	},
+	
+	["20r1"] = {
+		["model"] = "20r1",
+		["redline"] = 0.8,
+	},
+	
+	["r1m"] = {
+		["model"] = "r1m",
+		["redline"] = 0.8,
+	},
+	
+	["r6"] = {
+		["model"] = "r6",
+		["redline"] = 0.85,
+	},
+	
+	["gtr"] = {
+		["model"] = "gtr",
+		["redline"] = 0.85,
+	},
+	
+	["r8v10abt"] = {
+		["model"] = "r8v10abt",
+		["redline"] = 0.7,
+	},
+	
+	["toysupmk4"] = {
+		["model"] = "toysupmk4",
+		["redline"] = 0.85,
+	},
+	
+	["m3e46"] = {
+		["model"] = "m3e46",
+		["redline"] = 0.7,
+	},
+	
+	["765lt"] = {
+		["model"] = "765lt",
+		["redline"] = 0.85,
+	},
+	
+	["urustc"] = {
+		["model"] = "urustc",
+		["redline"] = 0.8,
+	},
+	
+	["rmodrs6"] = {
+		["model"] = "rmodrs6",
+		["redline"] = 0.8,
+	},
+	
+	["rmodgt64"] = {
+		["model"] = "rmodgt64",
+		["redline"] = 0.85,
+	},
+	
+	["m3f80"] = {
+		["model"] = "m3f80",
+		["redline"] = 0.75,
+	},
+	
+	["golfmk6"] = {
+		["model"] = "golfmk6",
+		["redline"] = 0.75,
+	},
+	
+	["cowardm4"] = {
+		["model"] = "cowardm4",
+		["redline"] = 0.85,
+	},
+	
+	["subwrx"] = {
+		["model"] = "subwrx",
+		["redline"] = 0.75,
+	},
+}
 
 RegisterCommand('lcv', function()
 	local vehicleModel = GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1)))
+	local tempVehicleModel = GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1)))
 	if SpecificCarsOnly then
-		for _,cars in pairs(LaunchCars) do
-			if GetHashKey(cars) == vehicleModel then
+		for model, data in pairs(LaunchCars) do
+			 if (tempVehicleModel == GetHashKey(model)) then
 				if IsPedInAnyVehicle(PlayerPedId(), false) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1) then
 					local speed = math.floor(GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1))) * speedomulti)
 					if speed < 1 then
@@ -114,7 +214,18 @@ Citizen.CreateThread( function()
 				local rpm = GetVehicleCurrentRpm(vehicle)
 				local speed = math.floor(GetEntitySpeed(vehicle) * speedomulti)
 				if speed < 1 then
-				SetVehicleCurrentRpm(vehicle , 0.7)
+				-- SetVehicleCurrentRpm(vehicle , RPM)
+				redline = 0.7
+				local tempVehicleModel = GetEntityModel(vehicle)
+				for model, data in pairs(LaunchCars) do -- QBCore.Shared.Vehicles
+					if (tempVehicleModel == GetHashKey(model)) then
+						redline = data.redline
+						break
+					end
+				end
+				SetVehicleCurrentRpm(vehicle , redline)
+				
+				
 				else
 				toggleLaunch = false
 				QBCore.Functions.Notify('Launch Control Successful !', 'success')
