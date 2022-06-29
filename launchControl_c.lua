@@ -196,6 +196,7 @@ function toggleLaunchControl()
 			local seconds = cooldownSecondsRemaining - minutes * 60 -- get the seconds left that don't make up a full minute
 			local cooldownMessage = string.format(" Launch Control is On Cooldown... Wait:  %dm, %ds", minutes, seconds)
 		QBCore.Functions.Notify(cooldownMessage, 'error')
+			-- TriggerEvent("notification",cooldownMessage,2)
 		end
 	end
 end
@@ -230,7 +231,6 @@ Citizen.CreateThread( function()
 				toggleLaunch = false
 				QBCore.Functions.Notify('Launch Control Successful !', 'success')
 				-- TriggerEvent("notification","Launch Control Successful !",2)
-				-- AddExplosion(vehiclePos.x, vehiclePos.y, vehiclePos.z, 61, 0.0, true, true, 0.0, true)
 				toggleBoost = true
 				Citizen.Wait(4400)
 				toggleBoost = false
